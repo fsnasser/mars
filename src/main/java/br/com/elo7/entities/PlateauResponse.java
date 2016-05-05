@@ -2,11 +2,11 @@ package br.com.elo7.entities;
 
 import org.springframework.http.ResponseEntity;
 
-public class PlateauResponse extends ResponseStatus {
+public class PlateauResponse extends CustomResponseStatus {
 
-	private Plateau plateau;
+private Plateau plateau;
 	
-	public PlateauResponse(ResponseStatus status, Plateau plateau) {
+	public PlateauResponse(CustomResponseStatus status, Plateau plateau) {
 		super(status.getType(), status.getMessage());
 		this.plateau = plateau;
 	}	
@@ -31,8 +31,8 @@ public class PlateauResponse extends ResponseStatus {
 	}
 	
 	@Override
-	public ResponseEntity<ResponseStatus> makeResponseEntity() {
-		return new ResponseEntity<ResponseStatus>(this, super.getType());
+	public ResponseEntity<CustomResponseStatus> makeResponseEntity() {
+		return new ResponseEntity<CustomResponseStatus>(this, super.getType());
 	}
 	
 }

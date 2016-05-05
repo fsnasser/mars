@@ -8,57 +8,49 @@ import org.junit.Test;
 
 import br.com.elo7.business.ApplicationBusiness;
 import br.com.elo7.entities.PlateauResponse;
-import br.com.elo7.entities.ResponseStatus;
+import br.com.elo7.entities.CustomResponseStatus;
+import br.com.elo7.exceptions.InvalidCoordinateException;
+import br.com.elo7.exceptions.NegativeCoordinateException;
+import br.com.elo7.exceptions.PlateauNotFoundException;
+import br.com.elo7.exceptions.PlateauNotRectangleException;
 
 public class PlateauTests {
 
-	private ApplicationBusiness business;
+private ApplicationBusiness business;
 	
 	@Before
 	public void init() {
 		business = new ApplicationBusiness();
 	}
 	
-	@Test
-	public void whenValidPlateauIsInicialized() {
-		ResponseStatus response = business.initPlateau(6L, 5L);
+	@Test()
+	public void whenValidPlateauIsInicialized() throws InvalidCoordinateException {
+		CustomResponseStatus response = business.initPlateau(6, 5);
 		ValidationUtils.createdValidation(response);
 	}
 	
 	@Test
-	public void whenGetValidPlateauStatus() {
-		business.initPlateau(6L, 5L);
+	public void whenGetValidPlateauStatus() throws InvalidCoordinateException, PlateauNotFoundException {
+		business.initPlateau(6, 5);
 		PlateauResponse response = (PlateauResponse) business.getPlateauStatus();
-		assertThat(response.getPlateau().getxSize(), equalTo(6L));
-		assertThat(response.getPlateau().getySize(), equalTo(5L));
+		assertThat(response.getPlateau().getxSize(), equalTo(6));
+		assertThat(response.getPlateau().getySize(), equalTo(5));
 	}
 	
-	@Test
-	public void whenXOrYLessThenZeroInPlateauInicialization() {
-		ResponseStatus response = business.initPlateau(6L, -5L);
-		ValidationUtils.xOrYlessThenZeroValidation(response);
-		response = business.initPlateau(-6L, 5L);
-		ValidationUtils.xOrYlessThenZeroValidation(response);
+	@Test(expected = NegativeCoordinateException.class)
+	public void whenXOrYLessThenZeroInPlateauInicialization() throws InvalidCoordinateException {
+		business.initPlateau(6, -5);
+		business.initPlateau(-6, 5);
 	}
 	
-	@Test
-	public void whenXOrYNullInPlateauInitialization() {
-		ResponseStatus response = business.initPlateau(null, 5L);
-		ValidationUtils.nullXAndYValidation(response);
-		response = business.initPlateau(6L, null);
-		ValidationUtils.nullXAndYValidation(response);
+	@Test(expected = PlateauNotRectangleException.class)
+	public void whenXIsEqualYInPlateauInitialization() throws InvalidCoordinateException {
+		business.initPlateau(5, 5);
 	}
 	
-	@Test
-	public void whenXIsEqualYInPlateauInitialization() {
-		ResponseStatus response = business.initPlateau(5L, 5L);
-		ValidationUtils.xEqualsYValidation(response);
-	}
-	
-	@Test
-	public void whenGetStatusWithoutInitializePlateau() {
-		ResponseStatus response = business.getPlateauStatus();
-		ValidationUtils.plateauNotInitializedValidation(response);
+	@Test(expected = PlateauNotFoundException.class)
+	public void whenGetStatusWithoutInitializePlateau() throws PlateauNotFoundException {
+		business.getPlateauStatus();
 	}
     
 }

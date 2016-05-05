@@ -8,17 +8,17 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_NULL)
-public class ResponseStatus {
+public class CustomResponseStatus {
 
 	private String message;
 	
 	private HttpStatus type;
 
-	public ResponseStatus(HttpStatus type) {
+	public CustomResponseStatus(HttpStatus type) {
 		this.type = type;
 	}
 	
-	public ResponseStatus(HttpStatus type, String message) {
+	public CustomResponseStatus(HttpStatus type, String message) {
 		this.type = type;
 		this.message = message;
 	}
@@ -52,8 +52,8 @@ public class ResponseStatus {
 		return null;
 	}
 	
-	public ResponseEntity<ResponseStatus> makeResponseEntity() {
-		return new ResponseEntity<ResponseStatus>(this, type);
+	public ResponseEntity<CustomResponseStatus> makeResponseEntity() {
+		return new ResponseEntity<CustomResponseStatus>(this, type);
 	}
 	
 }
