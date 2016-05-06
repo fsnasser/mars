@@ -8,25 +8,25 @@ O objetivo do projeto é movimentar as Sondas inicializadas por um plano cartesi
 
 Inicializa um planalto retangular de tamanho x / y positivo, sendo que o canto inferior direito é (0, 0) e o superior esquerdo é o x / y enviados.
 
-Caminho: /plateau/init
+**Caminho:** /plateau/init
 
-Método: POST
+**Método:** POST
 
-Retorno: 201
+**Retorno:** 201 CREATED
 
 ```json
 {
   "message": "Created",
-  "code": 201 CREATED
+  "code": 201
 }
 ```
 
-Parâmetros a serem enviados:
+**Parâmetros a serem enviados:**
 
 * [int] x - maior ponto x no planalto
 * [int] y - maior ponto y no planalto
 
-Possíveis erros:
+**Tratamento de erro:**
 
 * PlateauNotRectangleException (400 BAD REQUEST) - caso x seja igual a y
 * NegativeCoordinateException (400 BAD REQUEST) - caso x ou y tenham valores negativos
@@ -36,11 +36,11 @@ Possíveis erros:
 
 Recupera o estado do planalto, que contém as coordenadas de todas as sondas inicializadas.
 
-Caminho: /plateau/status
+**Caminho:** /plateau/status
 
-Método: GET
+**Método:** GET
 
-Retorno: 200 OK
+**Retorno:** 200 OK
 
 ```json
 {
@@ -53,7 +53,7 @@ Retorno: 200 OK
 }
 ```
 
-Possíveis erros:
+**Tratamento de erro:**
 
 * PlateauNotFoundException (202 ACCEPT) - caso o planalto não tenha sido inicializado
 
@@ -61,11 +61,11 @@ Possíveis erros:
 
 Inicializa uma sonda a cada requisição e a insere no planalto de acordo com a posição x e y, e a aponta para direção enviada.
 
-Caminho: /probe/init
+**Caminho:** /probe/init
 
-Método: POST
+**Método:** POST
 
-Retorno: 201 CREATED
+**Retorno:** 201 CREATED
 
 ```json
 {
@@ -74,7 +74,7 @@ Retorno: 201 CREATED
 }
 ```
 
-Parâmetros a serem enviados:
+**Parâmetros a serem enviados:**
 
 * [int] x - ponto x onde a sonda será inserida
 * [int] y - ponto y onde a sonda será inserida
@@ -88,7 +88,7 @@ Parâmetros a serem enviados:
   * L - sonda vira para a esquerda (muda a direção)
   * M - sonda move 1 ponto no plano cartesiano de acordo com a direção que está apontada
 
-Possíveis erros:
+**Tratamento de erro:**
 
 * PlateauNotFoundException (202 ACCEPT) - caso o planalto não tenha sido inicializado
 * ProbeOutPlateauException (400 BAD REQUEST) - caso x ou y for maior que x e y do planalto
@@ -102,11 +102,11 @@ Possíveis erros:
 
 Move as sondas na ordem em que foram inicializadas.
 
-Caminho: /probe/move
+**Caminho:** /probe/move
 
-Método: GET
+**Método:** GET
 
-Retorno: 200 OK
+**Retorno:** 200 OK
 
 ```json
 {
@@ -115,7 +115,7 @@ Retorno: 200 OK
 }
 ```
 
-Possíveis erros:
+**Tratamento de erro:**
 
 * PlateauNotFoundException (202 ACCEPT) - caso o planalto não tenha sido inicializado
 * ProbeNotFoundException (202 ACCEPT) - caso nenhuma sonda tenha sido inicializada
