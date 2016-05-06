@@ -5,7 +5,6 @@ import java.util.List;
 
 import br.com.elo7.exceptions.ProbeNotFoundException;
 import br.com.elo7.exceptions.ProbeOutPlateauException;
-import br.com.elo7.exceptions.ProbeSequenceException;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -52,7 +51,7 @@ private int xSize;
 		}
 	}
 	
-	public void probePositionUpdated(Probe probe) throws ProbeSequenceException, ProbeNotFoundException, ProbeOutPlateauException {
+	public void probePositionUpdated(Probe probe) throws ProbeNotFoundException, ProbeOutPlateauException {
 		int index = probes.indexOf(probe);
 		if(index >= 0) {
 			int probeX = probe.getX();
@@ -70,8 +69,6 @@ private int xSize;
 			case WEST:
 				probe.setX(--probeX);
 				break;
-			default:
-				throw new ProbeSequenceException();
 			}
 			if(!probeOutPlateau(probe.getX(), probe.getY())) {				
 				probes.set(index, probe);

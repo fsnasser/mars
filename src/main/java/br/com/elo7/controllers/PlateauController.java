@@ -1,5 +1,6 @@
 package br.com.elo7.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,11 +16,8 @@ import br.com.elo7.exceptions.PlateauNotFoundException;
 @RequestMapping(value = "plateau")
 public class PlateauController {
 	
-private ApplicationBusiness business;
-	
-	public PlateauController() {
-		this.business = new ApplicationBusiness();
-	}
+	@Autowired
+	private ApplicationBusiness business;
 	
 	@RequestMapping(value = "init", method = RequestMethod.POST)
 	public ResponseEntity<CustomResponseStatus> initPlateau(

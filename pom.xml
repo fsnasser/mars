@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>br.com.elo7</groupId>
-	<artifactId>teste</artifactId>
+	<artifactId>mars</artifactId>
 	<version>1.0</version>
 	<packaging>jar</packaging>
 
-	<name>teste</name>
+	<name>Mars Exploration</name>
 	<description>Projeto Teste Elo7</description>
 
 	<parent>
@@ -34,6 +34,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<dependency>
+		     <groupId>com.jayway.jsonpath</groupId>
+		    <artifactId>json-path</artifactId>
+		    <scope>test</scope>
+		 </dependency>
 	</dependencies>
 	
 	<build>

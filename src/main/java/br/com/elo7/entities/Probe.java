@@ -5,9 +5,10 @@ import java.util.List;
 
 import br.com.elo7.enums.CardinalDirection;
 import br.com.elo7.enums.ProbeCommand;
-import br.com.elo7.exceptions.ProbeSequenceException;
+import br.com.elo7.exceptions.InvalidDirectionException;
 import br.com.elo7.exceptions.ProbeNotFoundException;
 import br.com.elo7.exceptions.ProbeOutPlateauException;
+import br.com.elo7.exceptions.ProbeSequenceException;
 
 
 public class Probe {
@@ -20,11 +21,14 @@ public class Probe {
 	
 	private List<ProbeCommand> probeCommands;
 	
-	public Probe(int x, int y, char direction, String sequence) throws ProbeSequenceException {
+	public Probe(int x, int y, char direction, String sequence) throws ProbeSequenceException, InvalidDirectionException {
 		this.x = x;
 		this.y = y;
 		this.direction = CardinalDirection.NORTH;
 		this.direction = this.direction.getCardinalDirectionByType(direction);
+		if(this.direction == null) {
+			throw new InvalidDirectionException();
+		}
 		this.probeCommands = getProbeCommandsBySequence(sequence);
 	}
 
@@ -44,7 +48,7 @@ public class Probe {
 		this.y = y;
 	}
 	
-	public void moveOnPlateau(Plateau plateau) throws ProbeSequenceException, ProbeNotFoundException, ProbeOutPlateauException {
+	public void moveOnPlateau(Plateau plateau) throws ProbeNotFoundException, ProbeOutPlateauException {
 		for (ProbeCommand command : probeCommands) {
 			moveAccordingCommand(command, plateau);
 		}
@@ -76,7 +80,7 @@ public class Probe {
 		throw new ProbeSequenceException();
 	}
 	
-	private void moveAccordingCommand(ProbeCommand command, Plateau plateau) throws ProbeSequenceException, ProbeNotFoundException, ProbeOutPlateauException {
+	private void moveAccordingCommand(ProbeCommand command, Plateau plateau) throws ProbeNotFoundException, ProbeOutPlateauException {
 		switch (command) {
 		case LEFT:
 			rotateToLeft();
@@ -130,7 +134,7 @@ public class Probe {
 		}
 	}
 	
-	private void move(Plateau plateau) throws ProbeSequenceException, ProbeNotFoundException, ProbeOutPlateauException {
+	private void move(Plateau plateau) throws ProbeNotFoundException, ProbeOutPlateauException {
 		plateau.probePositionUpdated(this);
 	}
 	

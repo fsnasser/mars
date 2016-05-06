@@ -1,12 +1,14 @@
 package br.com.elo7.business;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 
 import br.com.elo7.entities.CustomResponseStatus;
 import br.com.elo7.entities.Plateau;
 import br.com.elo7.entities.PlateauResponse;
 import br.com.elo7.entities.Probe;
 import br.com.elo7.exceptions.InvalidCoordinateException;
+import br.com.elo7.exceptions.InvalidDirectionException;
 import br.com.elo7.exceptions.NegativeCoordinateException;
 import br.com.elo7.exceptions.PlateauNotFoundException;
 import br.com.elo7.exceptions.PlateauNotRectangleException;
@@ -14,13 +16,14 @@ import br.com.elo7.exceptions.ProbeNotFoundException;
 import br.com.elo7.exceptions.ProbeOutPlateauException;
 import br.com.elo7.exceptions.ProbeSequenceException;
 
+@Component
 public class ApplicationBusiness {
 
-private static Plateau plateau;
+	private static Plateau plateau;
 	
 	public CustomResponseStatus initPlateau(int x, int y) throws InvalidCoordinateException {
 		CustomResponseStatus status;
-		if(x > 0 && y > 0) {
+		if(x >= 0 && y >= 0) {
 			if(x != y) {
 				plateau = new Plateau(x, y);
 				status = new CustomResponseStatus(HttpStatus.CREATED);
@@ -44,10 +47,10 @@ private static Plateau plateau;
 		return status;
 	}
 	
-	public CustomResponseStatus initProbeOnPlateau(int x, int y, char direction, String sequence) throws PlateauNotFoundException, ProbeOutPlateauException, InvalidCoordinateException, ProbeSequenceException {
+	public CustomResponseStatus initProbeOnPlateau(int x, int y, char direction, String sequence) throws PlateauNotFoundException, ProbeOutPlateauException, InvalidCoordinateException, ProbeSequenceException, InvalidDirectionException {
 		CustomResponseStatus status;
 		if(plateau != null) {
-			if(x > 0 && y > 0) {				
+			if(x >= 0 && y >= 0) {				
 				Probe probe = new Probe(x, y, direction, sequence);					
 				plateau.addProbe(probe);
 				status = new CustomResponseStatus(HttpStatus.CREATED);
@@ -60,7 +63,7 @@ private static Plateau plateau;
 		}		
 	}
 	
-	public CustomResponseStatus moveProbes() throws PlateauNotFoundException, ProbeNotFoundException, ProbeSequenceException, ProbeOutPlateauException {
+	public CustomResponseStatus moveProbes() throws PlateauNotFoundException, ProbeNotFoundException, ProbeOutPlateauException {
 		CustomResponseStatus status;
 		if(plateau != null) {
 			if(plateau.getProbes().size() > 0) {
